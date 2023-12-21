@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="864.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javadb_project.demo2.ControllerHR">
+    <children>
+        <Button fx:id="button_logout" layoutX="1451.0" layoutY="30.0" mnemonicParsing="false" text="Log out" />
+        <Label fx:id="label_loggedin_as" layoutX="20.0" layoutY="21.0" text="HR PAGE" />
+        <TableView fx:id="tableview_table_show_users" layoutX="20.0" layoutY="232.0" prefHeight="84.0" prefWidth="1495.0">
+            <columns>
+                <TableColumn fx:id="col0" prefWidth="28.79998779296875" text="ID" />
+                <TableColumn fx:id="col1" prefWidth="71.20000839233398" text="User" />
+                <TableColumn fx:id="col3" minWidth="0.0" prefWidth="121.60002136230469" text="CNP" />
+                <TableColumn fx:id="col4" prefWidth="114.19998168945312" text="Nume" />
+                <TableColumn fx:id="col5" prefWidth="120.20001220703125" text="Prenume" />
+                <TableColumn fx:id="col6" prefWidth="138.20001220703125" text="Adresa" />
+                <TableColumn fx:id="col7" prefWidth="104.0" text="Telefon" />
+
+                <TableColumn fx:id="col8" prefWidth="134.20001220703125" text="Email" />
+                <TableColumn fx:id="col9" prefWidth="136.5999755859375" text="IBAN" />
+                <TableColumn fx:id="col10" prefWidth="117.199951171875" text="NrContract" />
+                <TableColumn fx:id="col11" prefWidth="100.800048828125" text="DataAngajarii" />
+                <TableColumn fx:id="col12" minWidth="0.0" prefWidth="104.4000244140625" text="Functie" />
+                <TableColumn fx:id="col13" minWidth="0.0" prefWidth="114.0" text="TipUtilizator" />
+            </columns>
+        </TableView>
+        <TextField fx:id="txtfield_firstname" layoutX="111.0" layoutY="72.0" />
+        <TextField fx:id="txtfield_lastname" layoutX="111.0" layoutY="116.0" />
+        <TextField fx:id="txtfield_position" layoutX="111.0" layoutY="152.0" />
+
+        <Button fx:id="button_search" layoutX="68.0" layoutY="187.0" mnemonicParsing="false" text="SEARCH" />
+        <Label fx:id="label_firstname" layoutX="33.0" layoutY="67.0" text="Nume" />
+        <Label fx:id="label_lastname" layoutX="32.0" layoutY="111.0" text="Prenume" />
+        <Label fx:id="label_position" layoutX="30.0" layoutY="147.0" text="Functie" />
+        <TableView fx:id="tableview_showsearchedtimetable" layoutX="446.0" layoutY="25.0" prefHeight="172.0" prefWidth="894.0">
+            <columns>
+                <TableColumn prefWidth="118.20000457763672" text="Luni" />
+                <TableColumn prefWidth="126.80001831054688" text="Marti" />
+                <TableColumn prefWidth="120.39999389648438" text="Miercuri" />
+                <TableColumn prefWidth="120.39999389648438" text="Joi" />
+                <TableColumn prefWidth="120.39999389648438" text="Vineri" />
+                <TableColumn prefWidth="120.39999389648438" text="Sambata" />
+                <TableColumn prefWidth="120.39999389648438" text="Duminica" />
+            </columns>
+        </TableView>
+
+
+    </children>
+</AnchorPane>
