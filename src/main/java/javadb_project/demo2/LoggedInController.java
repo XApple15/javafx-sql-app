@@ -53,6 +53,7 @@ public class LoggedInController implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 DBUtils.changeScene(actionEvent, "logged_in_Financiar.fxml", id, username, position);
+                System.out.println("da");
             }
         });
 
