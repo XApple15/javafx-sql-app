@@ -5,7 +5,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="864.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javadb_project.demo2.ControllerHR">
     <children>
-        <Button fx:id="button_logout" layoutX="1451.0" layoutY="30.0" mnemonicParsing="false" text="Log out" />
+        <Button fx:id="button_goback" layoutX="1451.0" layoutY="30.0" mnemonicParsing="false" text="Log out" />
         <Label fx:id="label_loggedin_as" layoutX="20.0" layoutY="21.0" text="HR PAGE" />
         <TableView fx:id="tableview_table_show_users" layoutX="20.0" layoutY="232.0" prefHeight="84.0" prefWidth="1495.0">
             <columns>
@@ -33,15 +33,29 @@
         <Label fx:id="label_firstname" layoutX="33.0" layoutY="67.0" text="Nume" />
         <Label fx:id="label_lastname" layoutX="32.0" layoutY="111.0" text="Prenume" />
         <Label fx:id="label_position" layoutX="30.0" layoutY="147.0" text="Functie" />
-        <TableView fx:id="tableview_showsearchedtimetable" layoutX="446.0" layoutY="25.0" prefHeight="172.0" prefWidth="894.0">
+        <TableView fx:id="tableview_showusertimetable" layoutX="366.0" layoutY="25.0" prefHeight="172.0" prefWidth="894.0">
             <columns>
-                <TableColumn prefWidth="118.20000457763672" text="Luni" />
-                <TableColumn prefWidth="126.80001831054688" text="Marti" />
-                <TableColumn prefWidth="120.39999389648438" text="Miercuri" />
-                <TableColumn prefWidth="120.39999389648438" text="Joi" />
-                <TableColumn prefWidth="120.39999389648438" text="Vineri" />
-                <TableColumn prefWidth="120.39999389648438" text="Sambata" />
-                <TableColumn prefWidth="120.39999389648438" text="Duminica" />
+                <TableColumn fx:id="col1tmtbl" prefWidth="118.20000457763672" text="Luni" />
+                <TableColumn fx:id="col2tmtbl" prefWidth="126.80001831054688" text="Marti" />
+                <TableColumn fx:id="col3tmtbl" prefWidth="120.39999389648438" text="Miercuri" />
+                <TableColumn fx:id="col4tmtbl" prefWidth="120.39999389648438" text="Joi" />
+                <TableColumn fx:id="col5tmtbl" prefWidth="120.39999389648438" text="Vineri" />
+                <TableColumn fx:id="col6tmtbl" prefWidth="120.39999389648438" text="Sambata" />
+                <TableColumn fx:id="col7tmtbl" prefWidth="120.39999389648438" text="Duminica" />
+            </columns>
+        </TableView>
+
+
+
+        <TableView fx:id="tableview_showsearchedtimetable" layoutX="321.0" layoutY="398.0" prefHeight="172.0" prefWidth="894.0">
+            <columns>
+                <TableColumn fx:id="col1tmtblsearched" prefWidth="118.20000457763672" text="Luni" />
+                <TableColumn fx:id="col2tmtblsearched" prefWidth="126.80001831054688" text="Marti" />
+                <TableColumn fx:id="col3tmtblsearched" prefWidth="120.39999389648438" text="Miercuri" />
+                <TableColumn fx:id="col4tmtblsearched" prefWidth="120.39999389648438" text="Joi" />
+                <TableColumn fx:id="col5tmtblsearched" prefWidth="120.39999389648438" text="Vineri" />
+                <TableColumn fx:id="col6tmtblsearched" prefWidth="120.39999389648438" text="Sambata" />
+                <TableColumn fx:id="col7tmtblsearched" prefWidth="120.39999389648438" text="Duminica" />
             </columns>
         </TableView>
 
