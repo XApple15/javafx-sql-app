@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="javadb_project.demo2.ControllerFinanciar"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="864.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javadb_project.demo2.ControllerFinanciar">
+   <children>
+      <TableView fx:id="tableview_show_profit_medicalunit" layoutX="52.0" layoutY="194.0" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="col1_showprofitmedicalunit" prefWidth="75.0" text="Date" />
+          <TableColumn fx:id="col2_showprofitmedicalunit" prefWidth="75.0" text="Profit" />
+        </columns>
+      </TableView>
+   </children>
 </AnchorPane>

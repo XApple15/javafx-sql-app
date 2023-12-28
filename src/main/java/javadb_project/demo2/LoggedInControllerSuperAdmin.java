@@ -1,6 +1,5 @@
 package javadb_project.demo2;
 
-import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,109 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-class Columns {
-    private StringProperty id;
-    private StringProperty username;
-    private StringProperty password;
-    private StringProperty cnp;
-    private StringProperty firstName;
-    private StringProperty lastName;
-    private StringProperty address;
-    private StringProperty phoneNumber;
-    private StringProperty email;
-    private StringProperty iban;
-    private StringProperty contractNumber;
-    private StringProperty dateOfEnrollment;
-    private StringProperty position;
-    private StringProperty userType;
-
-
-    private StringProperty timetable_monday;
-    private StringProperty timetable_tuesday;
-    private StringProperty timetable_wednesday;
-    private StringProperty timetable_thursday;
-    private StringProperty timetable_friday;
-    private StringProperty timetable_saturday;
-    private StringProperty timetable_sunday;
-
-    public Columns(String day) {
-
-    }
-
-    public Columns(String id, String username, String password, String cnp, String firstName, String lastName, String address, String phoneNumber, String email, String iban, String contractNumber, String dateOfEnrollment, String position, String userType) {
-        this.id = new SimpleStringProperty(id);
-        this.username = new SimpleStringProperty(username);
-        this.password = new SimpleStringProperty(password);
-        this.cnp = new SimpleStringProperty(cnp);
-        this.firstName = new SimpleStringProperty(firstName);
-        this.lastName = new SimpleStringProperty(lastName);
-        this.address = new SimpleStringProperty(address);
-        this.phoneNumber = new SimpleStringProperty(phoneNumber);
-        this.email = new SimpleStringProperty(email);
-        this.iban = new SimpleStringProperty(iban);
-        this.contractNumber = new SimpleStringProperty(contractNumber);
-        this.dateOfEnrollment = new SimpleStringProperty(dateOfEnrollment);
-        this.position = new SimpleStringProperty(position);
-        this.userType = new SimpleStringProperty(userType);
-    }
-
-    public StringProperty idProperty() {
-        return id;
-    }
-
-    public StringProperty usernameProperty() {
-        return username;
-    }
-
-    public StringProperty passwordProperty() {
-        return password;
-    }
-
-    public StringProperty cnpProperty() {
-        return cnp;
-    }
-
-    public StringProperty firstNameProperty() {
-        return firstName;
-    }
-
-    public StringProperty lastNameProperty() {
-        return lastName;
-    }
-
-    public StringProperty addressProperty() {
-        return address;
-    }
-
-    public StringProperty phoneNumberProperty() {
-        return phoneNumber;
-    }
-
-    public StringProperty emailProperty() {
-        return email;
-    }
-
-    public StringProperty ibanProperty() {
-        return iban;
-    }
-
-    public StringProperty contractNumberProperty() {
-        return contractNumber;
-    }
-
-    public StringProperty dateOfEnrollmentProperty() {
-        return dateOfEnrollment;
-    }
-
-    public StringProperty positionProperty() {
-        return position;
-    }
-
-    public StringProperty userTypeProperty() {
-        return userType;
-    }
-
-}
 
 public class LoggedInControllerSuperAdmin implements Initializable {
     private Integer id;

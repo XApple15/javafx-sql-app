@@ -1,9 +1,12 @@
 package javadb_project.demo2;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
+import javafx.beans.property.*;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -12,6 +15,116 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+class Columns {
+    private StringProperty id;
+    private StringProperty username;
+    private StringProperty password;
+    private StringProperty cnp;
+    private StringProperty firstName;
+    private StringProperty lastName;
+    private StringProperty address;
+    private StringProperty phoneNumber;
+    private StringProperty email;
+    private StringProperty iban;
+    private StringProperty contractNumber;
+    private StringProperty dateOfEnrollment;
+    private StringProperty position;
+    private StringProperty userType;
+
+
+    private StringProperty timetable_monday;
+    private StringProperty timetable_tuesday;
+    private StringProperty timetable_wednesday;
+    private StringProperty timetable_thursday;
+    private StringProperty timetable_friday;
+    private StringProperty timetable_saturday;
+    private StringProperty timetable_sunday;
+
+    public Columns(String Monday, String Tuesday, String Wednesday, String Thursday, String Friday, String Saturday, String Sunday) {
+        this.id = new SimpleStringProperty(Monday);
+        this.username = new SimpleStringProperty(Tuesday);
+        this.password = new SimpleStringProperty(Wednesday);
+        this.cnp = new SimpleStringProperty(Thursday);
+        this.address = new SimpleStringProperty(Friday);
+        this.email = new SimpleStringProperty(Saturday);
+        this.contractNumber = new SimpleStringProperty(Sunday);
+    }
+
+    public Columns(String id, String username, String password, String cnp, String firstName, String lastName, String address, String phoneNumber, String email, String iban, String contractNumber, String dateOfEnrollment, String position, String userType) {
+        this.id = new SimpleStringProperty(id);
+        this.username = new SimpleStringProperty(username);
+        this.password = new SimpleStringProperty(password);
+        this.cnp = new SimpleStringProperty(cnp);
+        this.firstName = new SimpleStringProperty(firstName);
+        this.lastName = new SimpleStringProperty(lastName);
+        this.address = new SimpleStringProperty(address);
+        this.phoneNumber = new SimpleStringProperty(phoneNumber);
+        this.email = new SimpleStringProperty(email);
+        this.iban = new SimpleStringProperty(iban);
+        this.contractNumber = new SimpleStringProperty(contractNumber);
+        this.dateOfEnrollment = new SimpleStringProperty(dateOfEnrollment);
+        this.position = new SimpleStringProperty(position);
+        this.userType = new SimpleStringProperty(userType);
+    }
+
+    public StringProperty idProperty() {
+        return id;
+    }
+
+    public StringProperty usernameProperty() {
+        return username;
+    }
+
+    public StringProperty passwordProperty() {
+        return password;
+    }
+
+    public StringProperty cnpProperty() {
+        return cnp;
+    }
+
+    public StringProperty firstNameProperty() {
+        return firstName;
+    }
+
+    public StringProperty lastNameProperty() {
+        return lastName;
+    }
+
+    public StringProperty addressProperty() {
+        return address;
+    }
+
+    public StringProperty phoneNumberProperty() {
+        return phoneNumber;
+    }
+
+    public StringProperty emailProperty() {
+        return email;
+    }
+
+    public StringProperty ibanProperty() {
+        return iban;
+    }
+
+    public StringProperty contractNumberProperty() {
+        return contractNumber;
+    }
+
+    public StringProperty dateOfEnrollmentProperty() {
+        return dateOfEnrollment;
+    }
+
+    public StringProperty positionProperty() {
+        return position;
+    }
+
+    public StringProperty userTypeProperty() {
+        return userType;
+    }
+
+}
 
 enum Error {
     ERROR1_uncompleted_text_fields,
@@ -55,7 +168,11 @@ public class DBUtils {
             try {
                 FXMLLoader loader = new FXMLLoader(DBUtils.class.getResource(fxmlFile));
                 root = loader.load();
-                if (fxmlFile.equals("logged_in_Super-Admin.fxml")) {
+                if (fxmlFile.equals("logged_in.fxml")) {
+                    stage.setTitle("Logged IN");
+                    LoggedInController loggedInController = loader.getController();
+                    loggedInController.initialisewithData(id, username, position);
+                } else if (fxmlFile.equals("logged_in_Super-Admin.fxml")) {
                     stage.setTitle("Super-Admin");
                     LoggedInControllerSuperAdmin loggedInControllerSuperAdmin = loader.getController();
                     loggedInControllerSuperAdmin.setUserInformation(id, username, position);
@@ -70,9 +187,6 @@ public class DBUtils {
                     ControllerHR loggedinHR = loader.getController();
                     loggedinHR.initializewithData(id, username, position);
                 } else if (fxmlFile.equals("logged_in_Medical.fxml")) {
-                } else {
-                    LoggedInController loggedInController = loader.getController();
-                    loggedInController.setUserInformation(username, position);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -121,29 +235,16 @@ public class DBUtils {
 
         try {
             connection = DriverManager.getConnection(DBlogin_address, DB_login_username, DB_login_password);
-            queryStatement = connection.prepareStatement("SELECT id , Parola,functie, TipUtilizator from utilizatori where Username=?");
+            queryStatement = connection.prepareStatement("SELECT id , Parola,functie from utilizatori where Username=?");
             queryStatement.setString(1, username);
             result = queryStatement.executeQuery();
             if (result.isBeforeFirst()) {
                 if (result.next()) {
                     String retrievePW = result.getString("parola");
                     if (retrievePW.equals(password)) {
-                        String accType = result.getString("TipUtilizator");
                         Integer accID = result.getInt("id");
                         String position = result.getString("functie");
-                        if (accType.equals("Super-Administrator")) {
-                            DBUtils.changeScene(event, "logged_in_Super-Admin.fxml", accID, username, position);
-                        } else if (accType.equals("Administrator")) {
-                            DBUtils.changeScene(event, "logged_in_Admin.fxml", accID, username, position);
-                        } else if (accType.equals("HR")) {
-                            DBUtils.changeScene(event, "logged_in_HR.fxml", accID, username, position);
-                        } else if (accType.equals("Financiar")) {
-                            DBUtils.changeScene(event, "logged_in_Financiar.fxml", accID, username, position);
-                        } else if (accType.equals("Medical")) {
-                            DBUtils.changeScene(event, "logged_in_Medical.fxml", accID, username, position);
-                        } else {
-                            DBUtils.changeScene(event, "logged_in_user.fxml", accID, username, position);
-                        }
+                        DBUtils.changeScene(event, "logged_in.fxml", accID, username, position);
                     } else {
                         printError(Error.ERROR4_login_credentials_notmatched);
                     }
@@ -224,7 +325,7 @@ public class DBUtils {
         }
     }
 
-    private static void closeConnection(Connection connection, PreparedStatement queryStatement, ResultSet result) {
+    public static void closeConnection(Connection connection, PreparedStatement queryStatement, ResultSet result) {
         if (result != null) {
             try {
                 result.close();
@@ -246,5 +347,19 @@ public class DBUtils {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static int getMonthFromDate(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        LocalDate date = LocalDate.parse(dateString, formatter);
+        return date.getMonthValue();
+    }
+
+    public static int getYearFromDate(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        LocalDate date = LocalDate.parse(dateString, formatter);
+        return date.getYear();
     }
 }
