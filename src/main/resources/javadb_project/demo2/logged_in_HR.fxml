@@ -2,12 +2,13 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="864.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javadb_project.demo2.ControllerHR">
     <children>
-        <Button fx:id="button_goback" layoutX="1451.0" layoutY="30.0" mnemonicParsing="false" text="Log out" />
-        <Label fx:id="label_loggedin_as" layoutX="20.0" layoutY="21.0" text="HR PAGE" />
-        <TableView fx:id="tableview_table_show_users" layoutX="20.0" layoutY="232.0" prefHeight="84.0" prefWidth="1495.0">
+        <Button fx:id="button_goback" layoutX="1451.0" layoutY="30.0" mnemonicParsing="false" text="Go back" />
+        <Label fx:id="label_loggedin_as" layoutX="20.0" layoutY="34.0" text="Your data" />
+        <TableView fx:id="tableview_table_show_user_data" layoutX="19.0" layoutY="254.0" prefHeight="62.0" prefWidth="1495.0">
             <columns>
                 <TableColumn fx:id="col0" prefWidth="28.79998779296875" text="ID" />
                 <TableColumn fx:id="col1" prefWidth="71.20000839233398" text="User" />
@@ -16,38 +17,57 @@
                 <TableColumn fx:id="col5" prefWidth="120.20001220703125" text="Prenume" />
                 <TableColumn fx:id="col6" prefWidth="138.20001220703125" text="Adresa" />
                 <TableColumn fx:id="col7" prefWidth="104.0" text="Telefon" />
-
                 <TableColumn fx:id="col8" prefWidth="134.20001220703125" text="Email" />
                 <TableColumn fx:id="col9" prefWidth="136.5999755859375" text="IBAN" />
                 <TableColumn fx:id="col10" prefWidth="117.199951171875" text="NrContract" />
-                <TableColumn fx:id="col11" prefWidth="100.800048828125" text="DataAngajarii" />
-                <TableColumn fx:id="col12" minWidth="0.0" prefWidth="104.4000244140625" text="Functie" />
-                <TableColumn fx:id="col13" minWidth="0.0" prefWidth="114.0" text="TipUtilizator" />
+                <TableColumn fx:id="col11" prefWidth="137.5999755859375" text="DataAngajarii" />
+                <TableColumn fx:id="col12" minWidth="0.0" prefWidth="120.7999267578125" text="Functie" />
+                <TableColumn fx:id="col13" minWidth="0.0" prefWidth="147.2000732421875" text="TipUtilizator" />
             </columns>
         </TableView>
-        <TextField fx:id="txtfield_firstname" layoutX="111.0" layoutY="72.0" />
-        <TextField fx:id="txtfield_lastname" layoutX="111.0" layoutY="116.0" />
-        <TextField fx:id="txtfield_position" layoutX="111.0" layoutY="152.0" />
 
-        <Button fx:id="button_search" layoutX="68.0" layoutY="187.0" mnemonicParsing="false" text="SEARCH" />
-        <Label fx:id="label_firstname" layoutX="33.0" layoutY="67.0" text="Nume" />
-        <Label fx:id="label_lastname" layoutX="32.0" layoutY="111.0" text="Prenume" />
-        <Label fx:id="label_position" layoutX="30.0" layoutY="147.0" text="Functie" />
-        <TableView fx:id="tableview_showusertimetable" layoutX="366.0" layoutY="25.0" prefHeight="172.0" prefWidth="894.0">
+
+        <TableView fx:id="tableview_table_show_searched_user_data" layoutX="18.0" layoutY="600.0" prefHeight="53.0" prefWidth="1495.0">
             <columns>
-                <TableColumn fx:id="col1tmtbl" prefWidth="118.20000457763672" text="Luni" />
-                <TableColumn fx:id="col2tmtbl" prefWidth="126.80001831054688" text="Marti" />
-                <TableColumn fx:id="col3tmtbl" prefWidth="120.39999389648438" text="Miercuri" />
-                <TableColumn fx:id="col4tmtbl" prefWidth="120.39999389648438" text="Joi" />
-                <TableColumn fx:id="col5tmtbl" prefWidth="120.39999389648438" text="Vineri" />
-                <TableColumn fx:id="col6tmtbl" prefWidth="120.39999389648438" text="Sambata" />
-                <TableColumn fx:id="col7tmtbl" prefWidth="120.39999389648438" text="Duminica" />
+                <TableColumn fx:id="col0searched" prefWidth="28.79998779296875" text="ID" />
+                <TableColumn fx:id="col1searched" prefWidth="71.20000839233398" text="User" />
+                <TableColumn fx:id="col3searched" minWidth="0.0" prefWidth="121.60002136230469" text="CNP" />
+                <TableColumn fx:id="col4searched" prefWidth="114.19998168945312" text="Nume" />
+                <TableColumn fx:id="col5searched" prefWidth="120.20001220703125" text="Prenume" />
+                <TableColumn fx:id="col6searched" prefWidth="138.20001220703125" text="Adresa" />
+                <TableColumn fx:id="col7searched" prefWidth="104.0" text="Telefon" />
+                <TableColumn fx:id="col8searched" prefWidth="134.20001220703125" text="Email" />
+                <TableColumn fx:id="col9searched" prefWidth="136.5999755859375" text="IBAN" />
+                <TableColumn fx:id="col10searched" prefWidth="117.199951171875" text="NrContract" />
+                <TableColumn fx:id="col11searched" prefWidth="100.800048828125" text="DataAngajarii" />
+                <TableColumn fx:id="col12searched" minWidth="0.0" prefWidth="104.4000244140625" text="Functie" />
+                <TableColumn fx:id="col13searched" minWidth="0.0" prefWidth="114.0" text="TipUtilizator" />
+            </columns>
+        </TableView>
+        <TextField fx:id="txtfield_firstname" layoutX="100.0" layoutY="419.0" />
+        <TextField fx:id="txtfield_lastname" layoutX="100.0" layoutY="469.0" />
+        <TextField fx:id="txtfield_position" layoutX="100.0" layoutY="519.0" />
+
+        <Button fx:id="button_search" layoutX="145.0" layoutY="559.0" mnemonicParsing="false" text="SEARCH" />
+        <Label fx:id="label_firstname" layoutX="40.0" layoutY="419.0" text="Nume" />
+        <Label fx:id="label_lastname" layoutX="40.0" layoutY="469.0" text="Prenume" />
+        <Label fx:id="label_position" layoutX="40.0" layoutY="519.0" text="Functie" />
+        <Label fx:id="label_searchuser" layoutX="34.0" layoutY="363.0" text="Search User" />
+
+        <TableView fx:id="tableview_showusertimetable" layoutX="457.0" layoutY="70.0" prefHeight="172.0" prefWidth="1053.0">
+            <columns>
+                <TableColumn fx:id="col1tmtbl" prefWidth="145.3999786376953" text="Luni" />
+                <TableColumn fx:id="col2tmtbl" prefWidth="131.0" text="Marti" />
+                <TableColumn fx:id="col3tmtbl" prefWidth="174.60000610351562" text="Miercuri" />
+                <TableColumn fx:id="col4tmtbl" prefWidth="134.39996337890625" text="Joi" />
+                <TableColumn fx:id="col5tmtbl" prefWidth="143.39996337890625" text="Vineri" />
+                <TableColumn fx:id="col6tmtbl" prefWidth="169.199951171875" text="Sambata" />
+                <TableColumn fx:id="col7tmtbl" prefWidth="158.39990234375" text="Duminica" />
             </columns>
         </TableView>
 
 
-
-        <TableView fx:id="tableview_showsearchedtimetable" layoutX="321.0" layoutY="398.0" prefHeight="172.0" prefWidth="894.0">
+        <TableView fx:id="tableview_showsearchedtimetable" layoutX="319.0" layoutY="387.0" prefHeight="172.0" prefWidth="894.0">
             <columns>
                 <TableColumn fx:id="col1tmtblsearched" prefWidth="118.20000457763672" text="Luni" />
                 <TableColumn fx:id="col2tmtblsearched" prefWidth="126.80001831054688" text="Marti" />
@@ -58,6 +78,20 @@
                 <TableColumn fx:id="col7tmtblsearched" prefWidth="120.39999389648438" text="Duminica" />
             </columns>
         </TableView>
+      <TableView fx:id="tableview_showuservacantion" layoutX="73.0" layoutY="70.0" prefHeight="172.0" prefWidth="310.0">
+        <columns>
+          <TableColumn fx:id="col1vac" prefWidth="156.1999969482422" text="Data Inceput Concediu" />
+          <TableColumn fx:id="col2vac" prefWidth="153.4000244140625" text="Data Sfarsit Concediu" />
+        </columns>
+      </TableView>
+
+        <TableView fx:id="tableview_showsearchedvacantion" layoutX="370.0" layoutY="679.0" prefHeight="137.0" prefWidth="310.0">
+            <columns>
+                <TableColumn fx:id="col1vacsearched" prefWidth="156.1999969482422" text="Data inceput Concediu" />
+                <TableColumn fx:id="col2vacsearched" prefWidth="153.4000244140625" text="Data Sfarsit Concediu" />
+            </columns>
+        </TableView>
+      <Line endX="1435.0" layoutX="101.0" layoutY="339.0" startX="-100.0" strokeWidth="2.0" />
 
 
     </children>

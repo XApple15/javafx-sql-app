@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 public class LoggedInControllerAdmin implements Initializable {
     private Integer id;
     private String username;
-    private String password;
+    private String position;
 
     @FXML
     private TableView tableview_table_show_users;
@@ -89,30 +89,37 @@ public class LoggedInControllerAdmin implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+
+    public void initializeWithData(Integer id, String username, String position) {
+        this.position = position;
+        this.id = id;
+        this.username = username;
+
         initialiseTextFields();
+        showAllUsers();
+
         button_logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 DBUtils.changeScene(actionEvent, "login.fxml", null, null, null);
             }
         });
-
-
         button_update_data.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (!checkIfEmplyTxtFields()) {
                     try {
-                        if (modify13.getText().equals("Super-Administrator"))
+                        if (modify13.getText().equals("Super-Administrator") && position.equals("Administrator"))
                             DBUtils.printError(Error.ERROR2_no_right_to_assign_this_usertype);
                         else {
                             DBUtils.updateUserInfo(modify0.getText(), modify1.getText(), modify2.getText(), modify3.getText(), modify4.getText(),
                                     modify5.getText(), modify6.getText(), modify7.getText(), modify8.getText(), modify9.getText(),
                                     modify10.getText(), modify11.getText(), modify12.getText(), modify13.getText());
-                            DBUtils.changeScene(actionEvent, "logged_in_Admin.fxml", id, username, password);
+                            DBUtils.changeScene(actionEvent, "logged_in_Admin.fxml", id, username, position);
                         }
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        e.printStackTrace();
                     }
                 }
             }
@@ -123,25 +130,21 @@ public class LoggedInControllerAdmin implements Initializable {
             public void handle(ActionEvent actionEvent) {
                 if (!checkIfEmplyTxtFields()) {
                     try {
-                        if (modify13.getText().equals("Super-Administrator"))
+                        if (modify13.getText().equals("Super-Administrator") && position.equals("Admnistrator"))
                             DBUtils.printError(Error.ERROR2_no_right_to_assign_this_usertype);
                         else {
                             DBUtils.createNewUser(modify1.getText(), modify2.getText(), modify3.getText(), modify4.getText(),
                                     modify5.getText(), modify6.getText(), modify7.getText(), modify8.getText(), modify9.getText(),
                                     modify10.getText(), modify11.getText(), modify12.getText(), modify13.getText());
-                            DBUtils.changeScene(actionEvent, "logged_in_Admin.fxml", id, username, password);
+                            DBUtils.changeScene(actionEvent, "logged_in_Admin.fxml", id, username, position);
                         }
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        e.printStackTrace();
                     }
                 }
             }
         });
-        try {
-            showAllUsers();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
         tableview_table_show_users.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 handleKeyPressed();
@@ -177,8 +180,7 @@ public class LoggedInControllerAdmin implements Initializable {
         return false;
     }
 
-    private void showAllUsers() throws SQLException {
-
+    private void showAllUsers() {
         col0.setCellValueFactory(cellData -> cellData.getValue().idProperty());
         col1.setCellValueFactory(cellData -> cellData.getValue().usernameProperty());
         col2.setCellValueFactory(cellData -> cellData.getValue().passwordProperty());
@@ -198,44 +200,34 @@ public class LoggedInControllerAdmin implements Initializable {
         try {
             connection = DBUtils.createConnection();
             String query = "select id,username,parola,cnp,nume,prenume,adresa,telefon,email,ContIBAN,nrContract,dataAngajarii,Functie,TipUtilizator from utilizatori ";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                ResultSet resultSet = preparedStatement.executeQuery();
-
-                List<Columns> itemList = new ArrayList<>();
-                while (resultSet.next()) {
-                    String col13 = resultSet.getString("TipUtilizator");
-                    if (!col13.equals("Super-Administrator")) {
-                        String col0 = resultSet.getString("id");
-                        String col1 = resultSet.getString("username");
-                        String col2 = resultSet.getString("parola");
-                        String col3 = resultSet.getString("CNP");
-                        String col4 = resultSet.getString("Nume");
-                        String col5 = resultSet.getString("Prenume");
-                        String col6 = resultSet.getString("Adresa");
-                        String col7 = resultSet.getString("Telefon");
-                        String col8 = resultSet.getString("Email");
-                        String col9 = resultSet.getString("ContIBAN");
-                        String col10 = resultSet.getString("NrContract");
-                        String col11 = resultSet.getString("DataAngajarii");
-                        String col12 = resultSet.getString("Functie");
-
-
-                        itemList.add(new Columns(col0, col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13));
-                    }
+            List<Columns> itemList = new ArrayList<>();
+            while (resultSet.next()) {
+                String col13 = resultSet.getString("TipUtilizator");
+                if (this.position.equals("Super Administrator") || (!col13.equals("Super-Administrator") && this.position.equals("Administrator"))) {
+                    String col0 = resultSet.getString("id");
+                    String col1 = resultSet.getString("username");
+                    String col2 = resultSet.getString("parola");
+                    String col3 = resultSet.getString("CNP");
+                    String col4 = resultSet.getString("Nume");
+                    String col5 = resultSet.getString("Prenume");
+                    String col6 = resultSet.getString("Adresa");
+                    String col7 = resultSet.getString("Telefon");
+                    String col8 = resultSet.getString("Email");
+                    String col9 = resultSet.getString("ContIBAN");
+                    String col10 = resultSet.getString("NrContract");
+                    String col11 = resultSet.getString("DataAngajarii");
+                    String col12 = resultSet.getString("Functie");
+                    itemList.add(new Columns(col0, col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13));
                 }
-                tableview_table_show_users.getItems().addAll(itemList);
             }
+            tableview_table_show_users.getItems().addAll(itemList);
+
+            DBUtils.closeConnection(connection, preparedStatement, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -259,12 +251,4 @@ public class LoggedInControllerAdmin implements Initializable {
             modify13.setText(selectedRow.userTypeProperty().get());
         }
     }
-
-    public void setUserInformation(Integer id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        label_loggedin_as.setText("Logged in as " + this.username);
-    }
 }
-

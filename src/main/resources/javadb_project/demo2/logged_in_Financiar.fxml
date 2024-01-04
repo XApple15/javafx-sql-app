@@ -5,10 +5,31 @@
 
 <AnchorPane prefHeight="864.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javadb_project.demo2.ControllerFinanciar">
    <children>
-      <TableView fx:id="tableview_show_profit_medicalunit" layoutX="52.0" layoutY="194.0" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="tableview_show_profit_medicalunit" layoutX="52.0" layoutY="194.0" prefHeight="200.0" prefWidth="250.0">
         <columns>
-          <TableColumn fx:id="col1_showprofitmedicalunit" prefWidth="75.0" text="Date" />
-          <TableColumn fx:id="col2_showprofitmedicalunit" prefWidth="75.0" text="Profit" />
+          <TableColumn fx:id="col1_showprofitmedicalunit" prefWidth="75.0" text="Month" />
+          <TableColumn fx:id="col2_showprofitmedicalunit" prefWidth="75.0" text="Income" />
+            <TableColumn fx:id="col3_showprofitmedicalunit" prefWidth="75.0" text="Expenses" />
+            <TableColumn fx:id="col4_showprofitmedicalunit" prefWidth="75.0" text="Profit" />
+
+        </columns>
+      </TableView>
+      <Button fx:id="button_searchmedic" layoutX="513.0" layoutY="214.0" mnemonicParsing="false" text="Search" />
+      <Label layoutX="513.0" layoutY="90.0" text="First Name" />
+      <Label layoutX="513.0" layoutY="120.0" text="LastName" />
+      <TextField fx:id="textfield_firstname" layoutX="619.0" layoutY="86.0" />
+      <TextField fx:id="textfield_lastname" layoutX="620.0" layoutY="116.0" />
+      <Label layoutX="73.0" layoutY="142.0" text="Medical Unit profit" />
+      <TableView layoutX="620.0" layoutY="278.0" prefHeight="200.0" prefWidth="345.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+      <TableView layoutX="668.0" layoutY="515.0" prefHeight="200.0" prefWidth="290.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Month" />
+          <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
    </children>

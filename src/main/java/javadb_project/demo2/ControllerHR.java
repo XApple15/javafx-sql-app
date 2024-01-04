@@ -23,7 +23,37 @@ public class ControllerHR implements Initializable {
 
 
     @FXML
-    private TableView tableview_table_show_users;
+    private TableView tableview_table_show_searched_user_data;
+    @FXML
+    private TableColumn<Columns, String> col0searched;
+    @FXML
+    private TableColumn<Columns, String> col1searched;
+    @FXML
+    private TableColumn<Columns, String> col3searched;
+    @FXML
+    private TableColumn<Columns, String> col4searched;
+    @FXML
+    private TableColumn<Columns, String> col5searched;
+    @FXML
+    private TableColumn<Columns, String> col6searched;
+    @FXML
+    private TableColumn<Columns, String> col7searched;
+    @FXML
+    private TableColumn<Columns, String> col8searched;
+    @FXML
+    private TableColumn<Columns, String> col9searched;
+    @FXML
+    private TableColumn<Columns, String> col10searched;
+    @FXML
+    private TableColumn<Columns, String> col11searched;
+    @FXML
+    private TableColumn<Columns, String> col12searched;
+    @FXML
+    private TableColumn<Columns, String> col13searched;
+
+
+    @FXML
+    private TableView tableview_table_show_user_data;
     @FXML
     private TableColumn<Columns, String> col0;
     @FXML
@@ -87,6 +117,19 @@ public class ControllerHR implements Initializable {
     @FXML
     private TableColumn<Columns, String> col7tmtblsearched;
 
+    @FXML
+    private TableView tableview_showuservacantion;
+    @FXML
+    private TableColumn<Columns, String> col1vac;
+    @FXML
+    private TableColumn<Columns, String> col2vac;
+
+    @FXML
+    private TableView tableview_showsearchedvacantion;
+    @FXML
+    private TableColumn<Columns, String> col1vacsearched;
+    @FXML
+    private TableColumn<Columns, String> col2vacsearched;
 
     @FXML
     private TextField txtfield_firstname;
@@ -101,19 +144,22 @@ public class ControllerHR implements Initializable {
     @FXML
     private Label label_position;
     @FXML
+    private Label label_searchuser;
+    @FXML
     private Button button_search;
     @FXML
     private Button button_goback;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 
     public void initializewithData(Integer id, String username, String position) {
         this.id = id;
         this.username = username;
         this.position = position;
-
+        searchUser("ghost", null, null, null);
+        showTimeTable("ghost", null, null, null);
+        showVacantion("ghost", null, null, null);
         if (position.equals("HR Specialist")) {
 
         } else {
@@ -124,15 +170,18 @@ public class ControllerHR implements Initializable {
             label_lastname.setVisible(false);
             label_position.setVisible(false);
             button_search.setVisible(false);
+            label_searchuser.setVisible(false);
             tableview_showsearchedtimetable.setVisible(false);
-            searchUser(position, null, null, null);
+            tableview_table_show_searched_user_data.setVisible(false);
+            tableview_showsearchedvacantion.setVisible(false);
         }
-        showTimeTable("ghost", null, null, null);
+
         button_search.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 searchUser(position, txtfield_firstname.getText(), txtfield_lastname.getText(), txtfield_position.getText());
                 showTimeTable(position, txtfield_firstname.getText(), txtfield_lastname.getText(), txtfield_position.getText());
+                showVacantion(position, txtfield_firstname.getText(), txtfield_lastname.getText(), txtfield_position.getText());
             }
         });
         button_goback.setOnAction(new EventHandler<ActionEvent>() {
@@ -146,7 +195,6 @@ public class ControllerHR implements Initializable {
     private void searchUser(String callerPosition, String firstName, String lastName, String position) {
         col0.setCellValueFactory(cellData -> cellData.getValue().idProperty());
         col1.setCellValueFactory(cellData -> cellData.getValue().usernameProperty());
-        // col2.setCellValueFactory(cellData -> cellData.getValue().passwordProperty());
         col3.setCellValueFactory(cellData -> cellData.getValue().cnpProperty());
         col4.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         col5.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
@@ -159,6 +207,25 @@ public class ControllerHR implements Initializable {
         col12.setCellValueFactory(cellData -> cellData.getValue().positionProperty());
         col13.setCellValueFactory(cellData -> cellData.getValue().userTypeProperty());
 
+        col0searched.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+        col1searched.setCellValueFactory(cellData -> cellData.getValue().usernameProperty());
+        col3searched.setCellValueFactory(cellData -> cellData.getValue().cnpProperty());
+        col4searched.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
+        col5searched.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+        col6searched.setCellValueFactory(cellData -> cellData.getValue().addressProperty());
+        col7searched.setCellValueFactory(cellData -> cellData.getValue().phoneNumberProperty());
+        col8searched.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
+        col9searched.setCellValueFactory(cellData -> cellData.getValue().ibanProperty());
+        col10searched.setCellValueFactory(cellData -> cellData.getValue().contractNumberProperty());
+        col11searched.setCellValueFactory(cellData -> cellData.getValue().dateOfEnrollmentProperty());
+        col12searched.setCellValueFactory(cellData -> cellData.getValue().positionProperty());
+        col13searched.setCellValueFactory(cellData -> cellData.getValue().userTypeProperty());
+
+
+        if (callerPosition.equals("HR Specialist")) {
+            tableview_table_show_searched_user_data.getItems().clear();
+            tableview_showsearchedtimetable.getItems().clear();
+        }
         Connection connection = null;
         try {
             connection = DBUtils.createConnection();
@@ -182,7 +249,6 @@ public class ControllerHR implements Initializable {
             while (resultSet.next()) {
                 String col0 = resultSet.getString("id");
                 String col1 = resultSet.getString("username");
-                String col2 = "null";
                 String col3 = resultSet.getString("CNP");
                 String col4 = resultSet.getString("Nume");
                 String col5 = resultSet.getString("Prenume");
@@ -195,14 +261,16 @@ public class ControllerHR implements Initializable {
                 String col12 = resultSet.getString("Functie");
                 String col13 = resultSet.getString("TipUtilizator");
 
-                itemList.add(new Columns(col0, col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13));
+                itemList.add(new Columns(col0, col1, null, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13));
             }
-            tableview_table_show_users.getItems().addAll(itemList);
+            if (callerPosition.equals("HR Specialist"))
+                tableview_table_show_searched_user_data.getItems().addAll(itemList);
+            else tableview_table_show_user_data.getItems().addAll(itemList);
             DBUtils.closeConnection(connection, preparedStatement, resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
+        } /*finally {
             try {
                 if (connection != null) {
                     connection.close();
@@ -210,30 +278,11 @@ public class ControllerHR implements Initializable {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     private void showTimeTable(String callerPosition, String firstName, String lastName, String position) {
-        Integer fetchedId = 0;
-        // TODO : search the user,get the id and search for his timetable and print it
-        try {
-            Connection connection = DBUtils.createConnection();
-
-            if (callerPosition.equals("HR Specialist")) {// search id
-                String query = " select id from utilizatori where nume=? and prenume=? and functie=?";
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setString(1, firstName);
-                preparedStatement.setString(2, lastName);
-                preparedStatement.setString(3, position);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next())
-                    fetchedId = resultSet.getInt("id");
-                DBUtils.closeConnection(connection, preparedStatement, resultSet);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        Integer fetchedId = DBUtils.searchforID(firstName, lastName, position);
         Integer usedId;
 
         col1tmtbl.setCellValueFactory(cellData -> cellData.getValue().idProperty());
@@ -300,6 +349,55 @@ public class ControllerHR implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    private void showVacantion(String callerPosition, String firstName, String lastName, String position) {
+        col1vac.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+        col2vac.setCellValueFactory(cellData -> cellData.getValue().usernameProperty());
+
+        col1vacsearched.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+        col2vacsearched.setCellValueFactory(cellData -> cellData.getValue().usernameProperty());
+
+        if (callerPosition.equals("HR Specialist")) {
+            tableview_table_show_searched_user_data.getItems().clear();
+            tableview_showsearchedtimetable.getItems().clear();
+            tableview_showsearchedvacantion.getItems().clear();
+        }
+        Connection connection = null;
+        try {
+            connection = DBUtils.createConnection();
+            PreparedStatement preparedStatement;
+            String query = "select DataInceput,DataSfarsit from concediiangajati ";
+            query += "where AngajatID=?";
+            preparedStatement = connection.prepareStatement(query);
+            if (callerPosition.equals("HR Specialist")) {
+                preparedStatement.setString(1, DBUtils.searchforID(firstName, lastName, position).toString());
+            } else {
+                preparedStatement.setString(1, String.valueOf(this.id));
+            }
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Columns> itemList = new ArrayList<>();
+
+            while (resultSet.next()) {
+                String col0 = resultSet.getString("DataInceput");
+                String col1 = resultSet.getString("DataSfarsit");
+                itemList.add(new Columns(col0, col1, null, null, null, null, null, null, null, null, null, null, null, null));
+            }
+            if (callerPosition.equals("HR Specialist"))
+                tableview_showsearchedvacantion.getItems().addAll(itemList);
+            else tableview_showuservacantion.getItems().addAll(itemList);
+            DBUtils.closeConnection(connection, preparedStatement, resultSet);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } /*finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }*/
     }
 }
