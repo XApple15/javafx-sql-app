@@ -4,33 +4,60 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="864.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javadb_project.demo2.ControllerFinanciar">
-   <children>
-      <TableView fx:id="tableview_show_profit_medicalunit" layoutX="52.0" layoutY="194.0" prefHeight="200.0" prefWidth="250.0">
-        <columns>
-          <TableColumn fx:id="col1_showprofitmedicalunit" prefWidth="75.0" text="Month" />
-          <TableColumn fx:id="col2_showprofitmedicalunit" prefWidth="75.0" text="Income" />
-            <TableColumn fx:id="col3_showprofitmedicalunit" prefWidth="75.0" text="Expenses" />
-            <TableColumn fx:id="col4_showprofitmedicalunit" prefWidth="75.0" text="Profit" />
+    <children>
+        <Button fx:id="button_goback" layoutX="1451.0" layoutY="30.0" mnemonicParsing="false" text="Go back" />
 
-        </columns>
-      </TableView>
-      <Button fx:id="button_searchmedic" layoutX="513.0" layoutY="214.0" mnemonicParsing="false" text="Search" />
-      <Label layoutX="513.0" layoutY="90.0" text="First Name" />
-      <Label layoutX="513.0" layoutY="120.0" text="LastName" />
-      <TextField fx:id="textfield_firstname" layoutX="619.0" layoutY="86.0" />
-      <TextField fx:id="textfield_lastname" layoutX="620.0" layoutY="116.0" />
-      <Label layoutX="73.0" layoutY="142.0" text="Medical Unit profit" />
-      <TableView layoutX="620.0" layoutY="278.0" prefHeight="200.0" prefWidth="345.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
-        </columns>
-      </TableView>
-      <TableView layoutX="668.0" layoutY="515.0" prefHeight="200.0" prefWidth="290.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="Month" />
-          <TableColumn prefWidth="75.0" text="C2" />
-        </columns>
-      </TableView>
-   </children>
+        <TableView fx:id="tableview_show_profit_medicalunit" layoutX="26.0" layoutY="86.0" prefHeight="324.0" prefWidth="380.0">
+            <columns>
+                <TableColumn fx:id="col0_showprofitmedicalunit" prefWidth="75.0" text="Polyclinic ID" />
+                <TableColumn fx:id="col1_showprofitmedicalunit" prefWidth="48.199974060058594" text="Month" />
+                <TableColumn fx:id="col2_showprofitmedicalunit" prefWidth="102.20001220703125" text="Income" />
+                <TableColumn fx:id="col3_showprofitmedicalunit" prefWidth="75.0" text="Expenses" />
+                <TableColumn fx:id="col4_showprofitmedicalunit" prefWidth="75.0" text="Profit" />
+
+            </columns>
+        </TableView>
+        <Button fx:id="button_searchmedic" layoutX="318.0" layoutY="701.0" mnemonicParsing="false" text="Search" />
+        <Label fx:id="label_firstname" layoutX="229.0" layoutY="580.0" text="First Name" />
+        <Label fx:id="label_lastname" layoutX="232.0" layoutY="614.0" text="LastName" />
+        <Label fx:id="label_position" layoutX="232.0" layoutY="644.0" text="Position" />
+
+        <TextField fx:id="txtfield_firstname" layoutX="318.0" layoutY="576.0" />
+        <TextField fx:id="txtfield_lastname" layoutX="318.0" layoutY="610.0" />
+        <TextField fx:id="txtfield_position" layoutX="318.0" layoutY="643.0" />
+
+        <Label fx:id="label_medicalunitprofit" layoutX="39.0" layoutY="41.0" text="Medical Unit profit" />
+        <TableView fx:id="tableview_showfinancialdetailsforspecificmedic" layoutX="556.0" layoutY="552.0" prefHeight="221.0" prefWidth="718.0">
+            <columns>
+                <TableColumn fx:id="col1_searchedmedic" prefWidth="75.0" text="Month" />
+                <TableColumn fx:id="col2_searchedmedic" prefWidth="75.0" text="Salary" />
+                <TableColumn fx:id="col3_searchedmedic" prefWidth="75.0" text="Comision" />
+                <TableColumn fx:id="col4_searchedmedic" prefWidth="162.4000244140625" text="Total revenue" />
+                <TableColumn fx:id="col5_searchedmedic" prefWidth="207.199951171875" text="Medical Unit revenue from medic" />
+                <TableColumn fx:id="col6_searchedmedic" prefWidth="118.0" text="Profit" />
+            </columns>
+        </TableView>
+        <TableView fx:id="tableview_showfinancialdetailsforallmedics" layoutX="556.0" layoutY="86.0" prefHeight="200.0" prefWidth="827.0">
+            <columns>
+                <TableColumn fx:id="col1_allmedics" prefWidth="75.0" text="MedicID" />
+                <TableColumn fx:id="col2_allmedics" prefWidth="75.0" text="Name" />
+                <TableColumn fx:id="col3_allmedics" prefWidth="75.0" text="Salary" />
+                <TableColumn fx:id="col4_allmedics" prefWidth="121.20001220703125" text="Comision" />
+                <TableColumn fx:id="col5_allmedics" prefWidth="130.79998779296875" text="Total revenue" />
+                <TableColumn fx:id="col6_allmedics" prefWidth="215.7999267578125" text="Medical Unit revenue from medic" />
+                <TableColumn fx:id="col7_allmedics" prefWidth="99.800048828125" text="Profit" />
+            </columns>
+        </TableView>
+
+
+        <TableView fx:id="tableview_showfinancialdetailsemployee" layoutX="556.0" layoutY="310.0" prefHeight="200.0" prefWidth="468.0">
+            <columns>
+                <TableColumn fx:id="col1_searchedemployee" prefWidth="75.0" text="EmployeeID" />
+                <TableColumn fx:id="col2_searchedemployee" prefWidth="168.20001220703125" text="Name" />
+                <TableColumn fx:id="col3_searchedemployee" prefWidth="75.79998779296875" text="month" />
+                <TableColumn fx:id="col4_searchedemployee" prefWidth="143.4000244140625" text="salary" />
+
+            </columns>
+        </TableView>
+    </children>
 </AnchorPane>

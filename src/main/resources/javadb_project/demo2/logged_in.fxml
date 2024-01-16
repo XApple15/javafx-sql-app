@@ -3,13 +3,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javadb_project.demo2.LoggedInController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javadb_project.demo2.ControllerLoggedIn">
    <children>
-      <Button fx:id="button_logout" layoutX="273.0" layoutY="291.0" mnemonicParsing="false" text="Logout" />
-      <Button fx:id="button_gotoHR" layoutX="63.0" layoutY="135.0" mnemonicParsing="false" text="HR Module" />
-      <Button fx:id="button_gotoMoney" layoutX="48.0" layoutY="174.0" mnemonicParsing="false" text="Financial Module" />
-      <Button fx:id="button_gotoOP" layoutX="42.0" layoutY="218.0" mnemonicParsing="false" text="Operations Module" />
-      <Label layoutX="30.0" layoutY="105.0" text="Select one of the modules :" />
+      <Button fx:id="button_logout" layoutX="503.0" layoutY="350.0" mnemonicParsing="false" text="Logout" />
+      <Button fx:id="button_gotoHR" layoutX="262.0" layoutY="161.0" mnemonicParsing="false" text="HR Module" />
+      <Button fx:id="button_gotoMoney" layoutX="247.0" layoutY="200.0" mnemonicParsing="false" text="Financial Module" />
+      <Button fx:id="button_gotoOP" layoutX="240.0" layoutY="234.0" mnemonicParsing="false" text="Operations Module" />
+      <Label layoutX="227.0" layoutY="128.0" text="Select one of the modules :" />
       <Label fx:id="label_loggedinas" layoutX="63.0" layoutY="42.0" text="Label" />
    </children>
 </AnchorPane>

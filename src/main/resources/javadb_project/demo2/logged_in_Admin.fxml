@@ -3,63 +3,65 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="864.0"
-            prefWidth="1536.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="javadb_project.demo2.LoggedInControllerAdmin">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="864.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javadb_project.demo2.ControllerAdmin">
     <children>
-        <Button fx:id="button_logout" layoutX="1451.0" layoutY="30.0" mnemonicParsing="false" text="Log out"/>
-        <Label fx:id="label_loggedin_as" layoutX="20.0" layoutY="21.0" text="ADMIN PAGE"/>
-        <TableView fx:id="tableview_table_show_users" layoutX="14.0" layoutY="76.0" prefHeight="196.0"
-                   prefWidth="1495.0">
+        <Button fx:id="button_logout" layoutX="1451.0" layoutY="30.0" mnemonicParsing="false" text="Log out" />
+        <Label fx:id="label_loggedin_as" layoutX="20.0" layoutY="21.0" text="ADMIN PAGE" />
+        <TableView fx:id="tableview_table_show_users" layoutX="14.0" layoutY="76.0" prefHeight="196.0" prefWidth="1495.0">
             <columns>
-                <TableColumn fx:id="col0" prefWidth="28.79998779296875" text="ID"/>
-                <TableColumn fx:id="col1" prefWidth="71.20000839233398" text="User"/>
-                <TableColumn fx:id="col2" minWidth="5.20001220703125" prefWidth="101.39999389648438" text="Password"/>
-                <TableColumn fx:id="col3" minWidth="0.0" prefWidth="121.60002136230469" text="CNP"/>
-                <TableColumn fx:id="col4" prefWidth="114.19998168945312" text="Nume"/>
-                <TableColumn fx:id="col5" prefWidth="120.20001220703125" text="Prenume"/>
-                <TableColumn fx:id="col6" prefWidth="138.20001220703125" text="Adresa"/>
-                <TableColumn fx:id="col7" prefWidth="104.0" text="Telefon"/>
+                <TableColumn fx:id="col0" prefWidth="28.79998779296875" text="ID" />
+                <TableColumn fx:id="col1" prefWidth="71.20000839233398" text="User" />
+                <TableColumn fx:id="col2" minWidth="5.20001220703125" prefWidth="101.39999389648438" text="Password" />
+                <TableColumn fx:id="col3" minWidth="0.0" prefWidth="121.60002136230469" text="CNP" />
+                <TableColumn fx:id="col4" prefWidth="114.19998168945312" text="Nume" />
+                <TableColumn fx:id="col5" prefWidth="120.20001220703125" text="Prenume" />
+                <TableColumn fx:id="col6" prefWidth="138.20001220703125" text="Adresa" />
+                <TableColumn fx:id="col7" prefWidth="104.0" text="Telefon" />
 
-                <TableColumn fx:id="col8" prefWidth="134.20001220703125" text="Email"/>
-                <TableColumn fx:id="col9" prefWidth="136.5999755859375" text="IBAN"/>
-                <TableColumn fx:id="col10" prefWidth="117.199951171875" text="NrContract"/>
-                <TableColumn fx:id="col11" prefWidth="100.800048828125" text="DataAngajarii"/>
-                <TableColumn fx:id="col12" minWidth="0.0" prefWidth="104.4000244140625" text="Functie"/>
-                <TableColumn fx:id="col13" minWidth="0.0" prefWidth="114.0" text="TipUtilizator"/>
+                <TableColumn fx:id="col8" prefWidth="134.20001220703125" text="Email" />
+                <TableColumn fx:id="col9" prefWidth="136.5999755859375" text="IBAN" />
+                <TableColumn fx:id="col10" prefWidth="117.199951171875" text="NrContract" />
+                <TableColumn fx:id="col11" prefWidth="100.800048828125" text="DataAngajarii" />
+                <TableColumn fx:id="col12" minWidth="0.0" prefWidth="104.4000244140625" text="Functie" />
+                <TableColumn fx:id="col13" minWidth="0.0" prefWidth="114.0" text="TipUtilizator" />
+                <TableColumn fx:id="col14" minWidth="0.0" prefWidth="114.0" text="ID Policlinica" />
+
             </columns>
         </TableView>
-        <TextField fx:id="modify0" layoutX="100.0" layoutY="322.0" editable="false"/>
-        <TextField fx:id="modify1" layoutX="100.0" layoutY="355.0"/>
-        <TextField fx:id="modify2" layoutX="100.0" layoutY="388.0"/>
-        <TextField fx:id="modify3" layoutX="100.0" layoutY="421.0"/>
-        <TextField fx:id="modify4" layoutX="100.0" layoutY="454.0"/>
-        <TextField fx:id="modify5" layoutX="100.0" layoutY="487.0"/>
-        <TextField fx:id="modify6" layoutX="100.0" layoutY="520.0"/>
-        <TextField fx:id="modify7" layoutX="100.0" layoutY="553.0"/>
-        <TextField fx:id="modify8" layoutX="100.0" layoutY="586.0"/>
-        <TextField fx:id="modify9" layoutX="100.0" layoutY="619.0"/>
-        <TextField fx:id="modify10" layoutX="100.0" layoutY="652.0"/>
-        <TextField fx:id="modify11" layoutX="100.0" layoutY="685.0"/>
-        <TextField fx:id="modify12" layoutX="100.0" layoutY="718.0"/>
-        <TextField fx:id="modify13" layoutX="100.0" layoutY="751.0"/>
+        <TextField fx:id="modify0" editable="false" layoutX="100.0" layoutY="322.0" />
+        <TextField fx:id="modify1" layoutX="100.0" layoutY="355.0" />
+        <TextField fx:id="modify2" layoutX="100.0" layoutY="388.0" />
+        <TextField fx:id="modify3" layoutX="100.0" layoutY="421.0" />
+        <TextField fx:id="modify4" layoutX="100.0" layoutY="454.0" />
+        <TextField fx:id="modify5" layoutX="100.0" layoutY="487.0" />
+        <TextField fx:id="modify6" layoutX="100.0" layoutY="520.0" />
+        <TextField fx:id="modify7" layoutX="100.0" layoutY="553.0" />
+        <TextField fx:id="modify8" layoutX="100.0" layoutY="586.0" />
+        <TextField fx:id="modify9" layoutX="100.0" layoutY="619.0" />
+        <TextField fx:id="modify10" layoutX="100.0" layoutY="652.0" />
+        <TextField fx:id="modify11" layoutX="100.0" layoutY="685.0" />
+        <TextField fx:id="modify12" layoutX="100.0" layoutY="718.0" />
+        <TextField fx:id="modify13" layoutX="100.0" layoutY="751.0" />
+        <TextField fx:id="modify14" layoutX="100.0" layoutY="783.0" />
 
-        <Button fx:id="button_update_data" layoutX="335.0" layoutY="330.0" mnemonicParsing="false" text="UPDATE"/>
-        <Label layoutX="20.0" layoutY="325.0" text="ID"/>
-        <Label layoutX="20.0" layoutY="359.0" text="Username"/>
-        <Label layoutX="20.0" layoutY="392.0" text="Password"/>
-        <Label layoutX="20.0" layoutY="425.0" text="CNP"/>
 
-        <Label layoutX="20.0" layoutY="458.0" text="Nume"/>
-        <Label layoutX="20.0" layoutY="491.0" text="Prenume"/>
-        <Label layoutX="20.0" layoutY="524.0" text="Adresa"/>
-        <Label layoutX="20.0" layoutY="557.0" text="Telefon"/>
-        <Label layoutX="20.0" layoutY="590.0" text="Email"/>
-        <Label layoutX="20.0" layoutY="623.0" text="IBAN"/>
-        <Label layoutX="20.0" layoutY="656.0" text="NrContract"/>
-        <Label layoutX="20.0" layoutY="689.0" text="Data Angajarii"/>
-        <Label layoutX="20.0" layoutY="722.0" text="Functie"/>
-        <Label layoutX="20.0" layoutY="755.0" text="Tip Utilizator"/>
-        <Button fx:id="button_newuser" layoutX="328.0" layoutY="379.0" mnemonicParsing="false" text="NEW USER"/>
+        <Button fx:id="button_update_data" layoutX="335.0" layoutY="330.0" mnemonicParsing="false" text="UPDATE" />
+        <Label layoutX="20.0" layoutY="325.0" text="ID" />
+        <Label layoutX="20.0" layoutY="359.0" text="Username" />
+        <Label layoutX="20.0" layoutY="392.0" text="Password" />
+        <Label layoutX="20.0" layoutY="425.0" text="CNP" />
+
+        <Label layoutX="20.0" layoutY="458.0" text="Nume" />
+        <Label layoutX="20.0" layoutY="491.0" text="Prenume" />
+        <Label layoutX="20.0" layoutY="524.0" text="Adresa" />
+        <Label layoutX="20.0" layoutY="557.0" text="Telefon" />
+        <Label layoutX="20.0" layoutY="590.0" text="Email" />
+        <Label layoutX="20.0" layoutY="623.0" text="IBAN" />
+        <Label layoutX="20.0" layoutY="656.0" text="NrContract" />
+        <Label layoutX="20.0" layoutY="689.0" text="Data Angajarii" />
+        <Label layoutX="20.0" layoutY="722.0" text="Functie" />
+        <Label layoutX="20.0" layoutY="755.0" text="Tip Utilizator" />
+        <Label layoutX="19.0" layoutY="787.0" text="ID Policlinica" />
+        <Button fx:id="button_newuser" layoutX="328.0" layoutY="379.0" mnemonicParsing="false" text="NEW USER" />
     </children>
 </AnchorPane>

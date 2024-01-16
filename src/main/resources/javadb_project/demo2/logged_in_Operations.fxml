@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javadb_project.demo2.ControllerOperations">
+    <children>
+        <ComboBox fx:id="combobox_selectservice" layoutX="214.0" layoutY="68.0" prefWidth="150.0" promptText="Select Medical Servic" />
+        <DatePicker fx:id="datepicker_selectdate" layoutX="563.0" layoutY="68.0" promptText="Pick Date" />
+        <ComboBox fx:id="combobox_selecthour" layoutX="776.0" layoutY="68.0" prefWidth="150.0" promptText="Pick Hour" />
+        <ComboBox fx:id="combobox_selectmedic" layoutX="390.0" layoutY="68.0" prefWidth="150.0" promptText="Select Medic" />
+        <TextField fx:id="textfield_pacientcnp" layoutX="41.0" layoutY="68.0" promptText="Pacient CNP" />
+        <Button fx:id="button_makeappointment" layoutX="948.0" layoutY="68.0" mnemonicParsing="false" text="Make Appointment" />
+        <TableView fx:id="tableview_showallappointments" layoutX="47.0" layoutY="137.0" prefHeight="200.0" prefWidth="491.0">
+            <columns>
+                <TableColumn fx:id="col1" prefWidth="23.199979782104492" text="ID" />
+                <TableColumn fx:id="col2" prefWidth="77.00000762939453" text="PacientCNP" />
+                <TableColumn fx:id="col3" prefWidth="71.39999389648438" text="MedicID" />
+                <TableColumn fx:id="col4" prefWidth="124.0" text="Medical Procedure" />
+                <TableColumn fx:id="col5" prefWidth="88.0" text="ProcedureID" />
+
+                <TableColumn fx:id="col6" prefWidth="88.0" text="Date" />
+                <TableColumn fx:id="col7" prefWidth="73.20001220703125" text="Hour" />
+            </columns>
+        </TableView>
+        <TableView fx:id="tableview_reicepts" layoutX="638.0" layoutY="213.0" prefHeight="256.0" prefWidth="378.0">
+            <columns>
+                <TableColumn fx:id="col1reicepts" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="col2reicepts" prefWidth="75.0" text="PacientID" />
+                <TableColumn fx:id="col3reicepts" prefWidth="75.0" text="Date" />
+                <TableColumn fx:id="col4reicepts" prefWidth="75.0" text="Price" />
+            </columns>
+        </TableView>
+        <TableView fx:id="tableview_consultations" layoutX="47.0" layoutY="400.0" prefHeight="150.0" prefWidth="491.0">
+            <columns>
+                <TableColumn fx:id="col1consultations" prefWidth="28.199981689453125" text="ID" />
+                <TableColumn fx:id="col2consultations" prefWidth="89.79999542236328" text="ProgramareID" />
+                <TableColumn fx:id="col3consultations" prefWidth="66.39999389648438" text="PacientID" />
+                <TableColumn fx:id="col4consultations" prefWidth="67.0" text="MedicID" />
+                <TableColumn fx:id="col5consultations" prefWidth="133.4000244140625" text="Date" />
+                <TableColumn fx:id="col6consultations" prefWidth="98.60000610351562" text="Price" />
+            </columns>
+        </TableView>
+        <Button fx:id="button_makereicept" layoutX="550.0" layoutY="497.0" mnemonicParsing="false" text="Make Reicept" />
+        <Button fx:id="button_makeconsultation" layoutX="208.0" layoutY="354.0" mnemonicParsing="false" text="Make Consultation" />
+        <TableView fx:id="tableview_usermedicalreport" layoutX="86.0" layoutY="68.0" prefHeight="247.0" prefWidth="908.0">
+            <columns>
+                <TableColumn fx:id="col1medrap" prefWidth="105.19999694824219" text="Data" />
+                <TableColumn fx:id="col2medrap" prefWidth="134.0000228881836" text="Simtome" />
+                <TableColumn fx:id="col3medrap" prefWidth="208.80001831054688" text="Diagnostic" />
+                <TableColumn fx:id="col4medrap" prefWidth="347.7999572753906" text="Recomandari" />
+                <TableColumn fx:id="col5medrap" prefWidth="113.4000244140625" text="Parafat" />
+            </columns>
+        </TableView>
+        <Button fx:id="button_goback" layoutX="936.0" layoutY="30.0" mnemonicParsing="false" text="Go back" />
+        <TextField fx:id="textfield_simtome" layoutX="147.0" layoutY="354.0" prefHeight="26.0" prefWidth="354.0" promptText="Simtome" />
+        <TextField fx:id="textfield_diagnostic" layoutX="147.0" layoutY="387.0" prefHeight="26.0" prefWidth="354.0" promptText="Diagnostic" />
+        <TextField fx:id="textfield_recomandari" layoutX="147.0" layoutY="324.0" prefHeight="26.0" prefWidth="354.0" promptText="Recomandari" />
+        <Button fx:id="button_saveconsultation" layoutX="557.0" layoutY="355.0" mnemonicParsing="false" text="Sign and save Consultation" />
+        <TableView fx:id="tableview_showmedicalanalysis" layoutX="88.0" layoutY="420.0" prefHeight="161.0" prefWidth="878.0">
+            <columns>
+                <TableColumn fx:id="col1analysis" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="col2analysis" prefWidth="75.0" text="PacientID" />
+                <TableColumn fx:id="col3analysis" prefWidth="75.0" text="AsistentID" />
+                <TableColumn fx:id="col4analysis" prefWidth="138.20001220703125" text="Data" />
+                <TableColumn fx:id="col5analysis" prefWidth="428.1999816894531" text="Rezultat" />
+                <TableColumn fx:id="col6analysis" prefWidth="83.20001220703125" text="Validat" />
+            </columns>
+        </TableView>
+
+        <TextField fx:id="textfield_newanalysis_pacientID" layoutX="138.0" layoutY="350.0" prefHeight="26.0" prefWidth="88.0" promptText="PacientID" />
+        <TextField fx:id="textfield_newanalysis_rezultat" layoutX="351.0" layoutY="350.0" promptText="Rezultat" />
+        <TextField fx:id="textfield_newanalysis_validat" layoutX="540.0" layoutY="350.0" prefHeight="26.0" prefWidth="60.0" promptText="Validat" />
+        <Button fx:id="button_newanalysis" layoutX="657.0" layoutY="350.0" mnemonicParsing="false" text="New Analysis" />
+        <TextField fx:id="textfield_newanalysis_data" layoutX="233.0" layoutY="350.0" prefHeight="26.0" prefWidth="106.0" promptText="Data" />
+
+        <TextField fx:id="textfield_updateanalysis_pacientID" layoutX="138.0" layoutY="390.0" prefHeight="26.0" prefWidth="88.0" promptText="PacientID" />
+        <TextField fx:id="textfield_updateanalysis_data" layoutX="233.0" layoutY="390.0" prefHeight="26.0" prefWidth="106.0" promptText="Data" />
+        <TextField fx:id="textfield_updateanalysis_rezultat" layoutX="352.0" layoutY="390.0" promptText="Rezultat" />
+        <TextField fx:id="textfield_updateanalysis_validat" layoutX="540.0" layoutY="390.0" prefHeight="26.0" prefWidth="60.0" promptText="Validat" />
+        <Button fx:id="button_updateanalysis" layoutX="654.0" layoutY="390.0" mnemonicParsing="false" text="Update Rezult" />
+    </children>
+</AnchorPane>

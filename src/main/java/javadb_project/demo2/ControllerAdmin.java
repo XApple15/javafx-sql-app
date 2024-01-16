@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class LoggedInControllerAdmin implements Initializable {
+public class ControllerAdmin implements Initializable {
     private Integer id;
     private String username;
     private String position;
@@ -51,6 +51,8 @@ public class LoggedInControllerAdmin implements Initializable {
     @FXML
     private TableColumn<Columns, String> col13;
     @FXML
+    private TableColumn<Columns, String> col14;
+    @FXML
     private TextField modify0;
     @FXML
     private TextField modify1;
@@ -79,6 +81,8 @@ public class LoggedInControllerAdmin implements Initializable {
     @FXML
     private TextField modify13;
     @FXML
+    private TextField modify14;
+    @FXML
     private Label label_loggedin_as;
     @FXML
     private Button button_update_data;
@@ -89,16 +93,6 @@ public class LoggedInControllerAdmin implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-    }
-
-    public void initializeWithData(Integer id, String username, String position) {
-        this.position = position;
-        this.id = id;
-        this.username = username;
-
-        initialiseTextFields();
-        showAllUsers();
-
         button_logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -109,17 +103,13 @@ public class LoggedInControllerAdmin implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (!checkIfEmplyTxtFields()) {
-                    try {
-                        if (modify13.getText().equals("Super-Administrator") && position.equals("Administrator"))
-                            DBUtils.printError(Error.ERROR2_no_right_to_assign_this_usertype);
-                        else {
-                            DBUtils.updateUserInfo(modify0.getText(), modify1.getText(), modify2.getText(), modify3.getText(), modify4.getText(),
-                                    modify5.getText(), modify6.getText(), modify7.getText(), modify8.getText(), modify9.getText(),
-                                    modify10.getText(), modify11.getText(), modify12.getText(), modify13.getText());
-                            DBUtils.changeScene(actionEvent, "logged_in_Admin.fxml", id, username, position);
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                    if (modify13.getText().equals("Super-Administrator") && position.equals("Administrator"))
+                        DBUtils.printError(Error.ERROR2_no_right_to_assign_this_usertype);
+                    else {
+                        DBUtils.updateUserInfo(modify0.getText(), modify1.getText(), modify2.getText(), modify3.getText(), modify4.getText(),
+                                modify5.getText(), modify6.getText(), modify7.getText(), modify8.getText(), modify9.getText(),
+                                modify10.getText(), modify11.getText(), modify12.getText(), modify13.getText(), modify14.getText());
+                        DBUtils.changeScene(actionEvent, "logged_in_Admin.fxml", id, username, position);
                     }
                 }
             }
@@ -129,17 +119,13 @@ public class LoggedInControllerAdmin implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (!checkIfEmplyTxtFields()) {
-                    try {
-                        if (modify13.getText().equals("Super-Administrator") && position.equals("Admnistrator"))
-                            DBUtils.printError(Error.ERROR2_no_right_to_assign_this_usertype);
-                        else {
-                            DBUtils.createNewUser(modify1.getText(), modify2.getText(), modify3.getText(), modify4.getText(),
-                                    modify5.getText(), modify6.getText(), modify7.getText(), modify8.getText(), modify9.getText(),
-                                    modify10.getText(), modify11.getText(), modify12.getText(), modify13.getText());
-                            DBUtils.changeScene(actionEvent, "logged_in_Admin.fxml", id, username, position);
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                    if (modify13.getText().equals("Super-Administrator") && position.equals("Admnistrator"))
+                        DBUtils.printError(Error.ERROR2_no_right_to_assign_this_usertype);
+                    else {
+                        DBUtils.createNewUser(modify1.getText(), modify2.getText(), modify3.getText(), modify4.getText(),
+                                modify5.getText(), modify6.getText(), modify7.getText(), modify8.getText(), modify9.getText(),
+                                modify10.getText(), modify11.getText(), modify12.getText(), modify13.getText(), modify14.getText());
+                        DBUtils.changeScene(actionEvent, "logged_in_Admin.fxml", id, username, position);
                     }
                 }
             }
@@ -152,28 +138,20 @@ public class LoggedInControllerAdmin implements Initializable {
         });
     }
 
-    private void initialiseTextFields() {
-        modify1.setText(null);
-        modify2.setText(null);
-        modify3.setText(null);
-        modify4.setText(null);
-        modify5.setText(null);
-        modify6.setText(null);
-        modify7.setText(null);
-        modify8.setText(null);
-        modify9.setText(null);
-        modify10.setText(null);
-        modify11.setText(null);
-        modify12.setText(null);
-        modify13.setText(null);
+    public void initializeWithData(Integer id, String username, String position) {
+        this.position = position;
+        this.id = id;
+        this.username = username;
+
+        showAllUsers();
     }
 
     private boolean checkIfEmplyTxtFields() {
-        if (modify1.getText() == null || modify2.getText() == null || modify3.getText() == null ||
-                modify4.getText() == null || modify5.getText() == null || modify6.getText() == null ||
-                modify7.getText() == null || modify8.getText() == null || modify9.getText() == null ||
-                modify10.getText() == null || modify11.getText() == null || modify12.getText() == null ||
-                modify13.getText() == null) {
+        if (modify1.getText().isEmpty() || modify2.getText().isEmpty() || modify3.getText().isEmpty() ||
+                modify4.getText().isEmpty() || modify5.getText().isEmpty() || modify6.getText().isEmpty() ||
+                modify7.getText().isEmpty() || modify8.getText().isEmpty() || modify9.getText().isEmpty() ||
+                modify10.getText().isEmpty() || modify11.getText().isEmpty() || modify12.getText().isEmpty() ||
+                modify13.getText().isEmpty() || modify14.getText().isEmpty()) {
             DBUtils.printError(Error.ERROR1_uncompleted_text_fields);
             return true;
         }
@@ -195,11 +173,11 @@ public class LoggedInControllerAdmin implements Initializable {
         col11.setCellValueFactory(cellData -> cellData.getValue().dateOfEnrollmentProperty());
         col12.setCellValueFactory(cellData -> cellData.getValue().positionProperty());
         col13.setCellValueFactory(cellData -> cellData.getValue().userTypeProperty());
+        col14.setCellValueFactory(cellData -> cellData.getValue().polyclinicIdProperty());
 
-        Connection connection = null;
         try {
-            connection = DBUtils.createConnection();
-            String query = "select id,username,parola,cnp,nume,prenume,adresa,telefon,email,ContIBAN,nrContract,dataAngajarii,Functie,TipUtilizator from utilizatori ";
+            Connection connection = DBUtils.createConnection();
+            String query = "select id,username,parola,cnp,nume,prenume,adresa,telefon,email,ContIBAN,nrContract,dataAngajarii,Functie,TipUtilizator,PoliclinicaID from utilizatori ";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -220,7 +198,8 @@ public class LoggedInControllerAdmin implements Initializable {
                     String col10 = resultSet.getString("NrContract");
                     String col11 = resultSet.getString("DataAngajarii");
                     String col12 = resultSet.getString("Functie");
-                    itemList.add(new Columns(col0, col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13));
+                    String col14 = resultSet.getString("PoliclinicaID");
+                    itemList.add(new Columns(col0, col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14));
                 }
             }
             tableview_table_show_users.getItems().addAll(itemList);
@@ -249,6 +228,7 @@ public class LoggedInControllerAdmin implements Initializable {
             modify11.setText(selectedRow.dateOfEnrollmentProperty().get());
             modify12.setText(selectedRow.positionProperty().get());
             modify13.setText(selectedRow.userTypeProperty().get());
+            modify14.setText(selectedRow.polyclinicIdProperty().get());
         }
     }
 }

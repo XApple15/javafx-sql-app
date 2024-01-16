@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoggedInController implements Initializable {
+public class ControllerLoggedIn implements Initializable {
     private Integer id;
     private String username;
     private String position;
@@ -36,7 +36,11 @@ public class LoggedInController implements Initializable {
         this.position = position;
 
         label_loggedinas.setText("Logged in as : " + username + " with position : " + position);
-
+        if (position.equals("Receptioner") || position.equals("Medic") || position.equals("Asistent")) {
+            button_gotoOP.setVisible(true);
+        } else {
+            button_gotoOP.setVisible(false);
+        }
         button_logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -59,7 +63,7 @@ public class LoggedInController implements Initializable {
         button_gotoOP.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                DBUtils.changeScene(actionEvent, "logged_in_operations.fxml", id, username, position);
+                DBUtils.changeScene(actionEvent, "logged_in_Operations.fxml", id, username, position);
             }
         });
 

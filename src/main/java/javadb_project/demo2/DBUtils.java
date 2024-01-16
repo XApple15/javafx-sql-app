@@ -33,6 +33,7 @@ class Columns {
     private StringProperty dateOfEnrollment;
     private StringProperty position;
     private StringProperty userType;
+    private StringProperty polyclinicId;
 
 
     private StringProperty timetable_monday;
@@ -53,7 +54,7 @@ class Columns {
         this.contractNumber = new SimpleStringProperty(Sunday);
     }
 
-    public Columns(String id, String username, String password, String cnp, String firstName, String lastName, String address, String phoneNumber, String email, String iban, String contractNumber, String dateOfEnrollment, String position, String userType) {
+    public Columns(String id, String username, String password, String cnp, String firstName, String lastName, String address, String phoneNumber, String email, String iban, String contractNumber, String dateOfEnrollment, String position, String userType, String poliId) {
         this.id = new SimpleStringProperty(id);
         this.username = new SimpleStringProperty(username);
         this.password = new SimpleStringProperty(password);
@@ -68,6 +69,7 @@ class Columns {
         this.dateOfEnrollment = new SimpleStringProperty(dateOfEnrollment);
         this.position = new SimpleStringProperty(position);
         this.userType = new SimpleStringProperty(userType);
+        this.polyclinicId = new SimpleStringProperty(poliId);
     }
 
     public StringProperty idProperty() {
@@ -126,13 +128,19 @@ class Columns {
         return userType;
     }
 
+    public StringProperty polyclinicIdProperty() {
+        return polyclinicId;
+    }
+
 }
 
 enum Error {
     ERROR1_uncompleted_text_fields,
     ERROR2_no_right_to_assign_this_usertype,
     ERROR3_username_already_exists,
-    ERROR4_login_credentials_notmatched
+    ERROR4_login_credentials_notmatched,
+    ERROR5_nouserfound,
+    ERROR6_INVALIDDATE
 
 }
 
@@ -151,6 +159,8 @@ public class DBUtils {
                     alert.setContentText("You don`t have the right to assign this UserType");
             case ERROR3_username_already_exists -> alert.setContentText("This username already exists");
             case ERROR4_login_credentials_notmatched -> alert.setContentText("No matching credentials");
+            case ERROR5_nouserfound -> alert.setContentText("No user found");
+            case ERROR6_INVALIDDATE -> alert.setContentText("Invalid date");
         }
         alert.show();
     }
@@ -171,33 +181,32 @@ public class DBUtils {
                 if (fxmlFile.equals("logged_in.fxml")) {
                     //   centerStage(stage);
                     stage.setTitle("Logged IN");
-                    LoggedInController loggedInController = loader.getController();
-                    loggedInController.initialisewithData(id, username, position);
-                }
-                /*else if (fxmlFile.equals("logged_in_Super-Admin.fxml")) {
-                    stage.setTitle("Super-Admin");
-                    LoggedInControllerSuperAdmin loggedInControllerSuperAdmin = loader.getController();
-                    loggedInControllerSuperAdmin.setUserInformation(id, username, position);
-                }*/
-                else if (fxmlFile.equals("logged_in_Admin.fxml")) {
+                    ControllerLoggedIn controllerLoggedIn = loader.getController();
+                    controllerLoggedIn.initialisewithData(id, username, position);
+                } else if (fxmlFile.equals("logged_in_Admin.fxml")) {
                     stage.setX(0);
                     stage.setY(0);
                     stage.setTitle("Admin");
-                    LoggedInControllerAdmin loggedInControllerAdmin = loader.getController();
-                    loggedInControllerAdmin.initializeWithData(id,username,position);
+                    ControllerAdmin controllerAdmin = loader.getController();
+                    controllerAdmin.initializeWithData(id, username, position);
                 } else if (fxmlFile.equals("logged_in_Financiar.fxml")) {
                     stage.setX(0);
                     stage.setY(0);
                     stage.setY(0);
                     ControllerFinanciar loggedinFinance = loader.getController();
-                    loggedinFinance.initializewithData(id,username,position);
+                    loggedinFinance.initializewithData(id, username, position);
                 } else if (fxmlFile.equals("logged_in_HR.fxml")) {
                     stage.setTitle("HR");
                     stage.setX(0);
                     stage.setY(0);
                     ControllerHR loggedinHR = loader.getController();
                     loggedinHR.initializewithData(id, username, position);
-                } else if (fxmlFile.equals("logged_in_Medical.fxml")) {
+                } else if (fxmlFile.equals("logged_in_Operations.fxml")) {
+                    stage.setTitle("Operations");
+                    stage.setX(0);
+                    stage.setY(0);
+                    ControllerOperations controllerOperations = loader.getController();
+                    controllerOperations.initializeWitData(id, username, position);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -217,17 +226,12 @@ public class DBUtils {
     }
 
     private static void centerStage(Stage stage) {
-        // Get the primary screen
         Screen screen = Screen.getPrimary();
-
-        // Get the bounds of the screen
         Rectangle2D bounds = screen.getVisualBounds();
 
-        // Calculate the center coordinates
         double centerX = bounds.getMinX() + (bounds.getWidth() - stage.getWidth()) / 2.0;
         double centerY = bounds.getMinY() + (bounds.getHeight() - stage.getHeight()) / 2.0;
 
-        // Set the stage coordinates
         stage.setX(centerX);
         stage.setY(centerY);
     }
@@ -273,28 +277,40 @@ public class DBUtils {
                     if (retrievePW.equals(password)) {
                         Integer accID = result.getInt("id");
                         String position = result.getString("functie");
-                        if (position.equals("Super Administrator") || position.equals("Administrator")) {
-                            DBUtils.changeScene(event, "logged_in_Admin.fxml", accID, username, position);
+                        if (!position.equals("Pacient")) {
+
+
+                            if (position.equals("Super Administrator") || position.equals("Administrator")) {
+                                DBUtils.changeScene(event, "logged_in_Admin.fxml", accID, username, position);
+                            } else {
+                                DBUtils.changeScene(event, "logged_in.fxml", accID, username, position);
+                            }
                         } else {
-                            DBUtils.changeScene(event, "logged_in.fxml", accID, username, position);
+                            printError(Error.ERROR4_login_credentials_notmatched);
+                            DBUtils.changeScene(event, "login.fxml", null, null, null);
                         }
                     } else {
                         printError(Error.ERROR4_login_credentials_notmatched);
+                        DBUtils.changeScene(event, "login.fxml", null, null, null);
+
                     }
                 }
             } else {
                 printError(Error.ERROR4_login_credentials_notmatched);
+                DBUtils.changeScene(event, "login.fxml", null, null, null);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             closeConnection(connection, queryStatement, result);
         }
+
     }
 
     public static void updateUserInfo(String id, String username, String password, String cnp, String firstName, String lastName,
                                       String address, String phoneNumber, String email, String iban, String contractNumber,
-                                      String dateOfEnrollment, String position, String userType) throws SQLException {
+                                      String dateOfEnrollment, String position, String userType, String polyclinicId) {
         Connection connection = null;
         try {
             connection = DBUtils.createConnection();
@@ -318,23 +334,30 @@ public class DBUtils {
                 preparedStatement.setString(14, id);
 
                 preparedStatement.executeUpdate();
+                DBUtils.closeConnection(connection, preparedStatement, null);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            if (connection != null) {
-                connection.close();
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
 
     public static void createNewUser(String username, String password, String cnp, String firstName, String lastName,
                                      String address, String phoneNumber, String email, String iban, String contractNumber,
-                                     String dateOfEnrollment, String position, String userType) throws SQLException {
+                                     String dateOfEnrollment, String position, String userType, String polyclinicId) {
         Connection connection = null;
         try {
             connection = DBUtils.createConnection();
 
-            String query = "INSERT INTO Utilizatori (Username, Parola, CNP, Nume, Prenume, Adresa, Telefon, Email, ContIBAN, NrContract, DataAngajarii, Functie, TipUtilizator)" +
-                    "VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO Utilizatori (Username, Parola, CNP, Nume, Prenume, Adresa, Telefon, Email, ContIBAN, NrContract, DataAngajarii, Functie, TipUtilizator,PoliclinicaID)" +
+                    "VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, username);
                 preparedStatement.setString(2, password);
@@ -349,11 +372,18 @@ public class DBUtils {
                 preparedStatement.setString(11, dateOfEnrollment);
                 preparedStatement.setString(12, position);
                 preparedStatement.setString(13, userType);
+                preparedStatement.setString(14, polyclinicId);
                 preparedStatement.executeUpdate();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            if (connection != null) {
-                connection.close();
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -384,6 +414,7 @@ public class DBUtils {
 
     public static Integer searchforID(String firstname, String lastname, String position) {
         int fetchedId = 0;
+        if (firstname == null && lastname == null && position == null) return 0;
         try {
             Connection connection = DBUtils.createConnection();
             String query = " select id from utilizatori where nume=? and prenume=? and functie=?";
@@ -402,15 +433,48 @@ public class DBUtils {
         return fetchedId;
     }
 
+    public static Integer searchForPolyclinicID(String userID, String firstname, String lastname, String position) {
+        Integer usedId = -1;
+        Integer polyclnicId = -1;
+        if (userID == null) {
+            usedId = searchforID(firstname, lastname, position);
+            if (usedId == -1) {
+                return -1;// no user found
+            }
+        } else usedId = Integer.valueOf(userID);
+
+        try {
+            Connection connection = DBUtils.createConnection();
+            String query = " select PoliclinicaID from utilizatori where id =?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, String.valueOf(usedId));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                polyclnicId = resultSet.getInt("PoliclinicaId");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return polyclnicId;
+    }
+
+    public static int getDayFromDate(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        LocalDate date = LocalDate.parse(dateString, formatter);
+        return date.getDayOfMonth();
+    }
+
     public static int getMonthFromDate(String dateString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         LocalDate date = LocalDate.parse(dateString, formatter);
         return date.getMonthValue();
     }
 
     public static int getYearFromDate(String dateString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         LocalDate date = LocalDate.parse(dateString, formatter);
         return date.getYear();
