@@ -11,7 +11,7 @@
         <ComboBox fx:id="combobox_selectmedic" layoutX="390.0" layoutY="68.0" prefWidth="150.0" promptText="Select Medic" />
         <TextField fx:id="textfield_pacientcnp" layoutX="41.0" layoutY="68.0" promptText="Pacient CNP" />
         <Button fx:id="button_makeappointment" layoutX="948.0" layoutY="68.0" mnemonicParsing="false" text="Make Appointment" />
-        <TableView fx:id="tableview_showallappointments" layoutX="47.0" layoutY="137.0" prefHeight="200.0" prefWidth="491.0">
+        <TableView fx:id="tableview_showallappointments" layoutX="47.0" layoutY="137.0" prefHeight="200.0" prefWidth="550.0">
             <columns>
                 <TableColumn fx:id="col1" prefWidth="23.199979782104492" text="ID" />
                 <TableColumn fx:id="col2" prefWidth="77.00000762939453" text="PacientCNP" />

@@ -317,24 +317,18 @@ public class ControllerOperations implements Initializable {
         //  and make reicept based on appointment
         if (position.equals("Receptioner")) {
             tableview_usermedicalreport.setVisible(false);
-
-
             textfield_newanalysis_validat.setVisible(false);
             textfield_newanalysis_data.setVisible(false);
-
             textfield_newanalysis_pacientID.setVisible(false);
             textfield_newanalysis_rezultat.setVisible(false);
             textfield_updateanalysis_data.setVisible(false);
-
             textfield_updateanalysis_pacientID.setVisible(false);
             textfield_updateanalysis_rezultat.setVisible(false);
-
             textfield_updateanalysis_validat.setVisible(false);
             button_newanalysis.setVisible(false);
             button_updateanalysis.setVisible(false);
             tableview_showmedicalanalysis.setVisible(false);
             button_makeconsultation.setVisible(false);
-
             getAllMedicalServices();
             showAllConsultations();
             showAllAppointments();
@@ -395,6 +389,7 @@ public class ControllerOperations implements Initializable {
         }
     }
 
+    // print in the combobox all the medical services avalaible
     private void getAllMedicalServices() {
         try {
             Connection connection = DBUtils.createConnection();
@@ -411,6 +406,7 @@ public class ControllerOperations implements Initializable {
         }
     }
 
+    // filter all the medics by the competencies and print in the combobox those who are compatible with the service chosen
     private void getAllMedicFilteredByRequiredCompetencies() {
         combobox_selectmedic.getItems().clear();
         try {
@@ -427,7 +423,6 @@ public class ControllerOperations implements Initializable {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                //if(resultSet.getString("Competente").contains(combobox_selectservice))
                 procedureDuration = resultSet.getInt("serviciimedicale.DurataInMinute");
                 procedureId = resultSet.getInt("Serviciimedicale.id");
                 combobox_selectmedic.getItems().add(resultSet.getString("detaliimedici.MedicID") + " " + resultSet.getString("utilizatori.nume") + " " + resultSet.getString("utilizatori.prenume"));
@@ -438,13 +433,15 @@ public class ControllerOperations implements Initializable {
         }
     }
 
+
+    // get all the vacantion intervals and store them in the emplyeevacantion class and later when selecting date give
+    // error if a day in this interval has been chosen
     private void setCalendarDays() {
         medicID = extractFirstNumber(combobox_selectmedic.getValue().toString());
         if (medicID == -1) {
             DBUtils.printError(Error.ERROR5_nouserfound);
             return;
         }
-
         try {
             Connection connection = DBUtils.createConnection();
             String query = " select * from concediiangajati where AngajatID =?";
@@ -457,16 +454,17 @@ public class ControllerOperations implements Initializable {
                 String stopdayString = resultSet.getString("DataSfarsit");
                 LocalDate startDay = LocalDate.of(DBUtils.getYearFromDate(startdayString), DBUtils.getMonthFromDate(startdayString), DBUtils.getDayFromDate(startdayString));
                 LocalDate stopDay = LocalDate.of(DBUtils.getYearFromDate(stopdayString), DBUtils.getMonthFromDate(stopdayString), DBUtils.getDayFromDate(stopdayString));
-
                 allEmployeeVacantion.add(new employeeVacantion(startDay, stopDay));
             }
             DBUtils.closeConnection(connection, preparedStatement, resultSet);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+
+    //search in the employeevacantion and check if a date is in the interval, return true if avalaible and false
+    // if medic is in vacantion
     private boolean checkIfAvalaibleDate() {
         if (datepicker_selectdate.getValue().isBefore(currentDate)) {
             DBUtils.printError(Error.ERROR6_INVALIDDATE);
@@ -481,6 +479,9 @@ public class ControllerOperations implements Initializable {
         return true;
     }
 
+
+    // hour sorting algorithm which gets all the reservations in that day, and calculates every hour an appointment
+    // can be made considering time it takes to do the selected service
     private void getAllAvalaibleHours() {
 // TODO : get the hour interval for the day of the week and select all avalaible posibilities
         LocalDate selectedDate = datepicker_selectdate.getValue();
@@ -499,15 +500,11 @@ public class ControllerOperations implements Initializable {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 timeIntervalAtWorks.add(new timeIntervalBusy(resultSet.getString("OraInceput"), resultSet.getString("OraSfarsit")));
-                System.out.println("atwork" + resultSet.getString("OraInceput") + resultSet.getString("OraSfarsit"));
             }
             DBUtils.closeConnection(connection, preparedStatement, resultSet);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
         try { // get all the time intervals at work in that day
             Connection connection = DBUtils.createConnection();
             String query = " Select * from programari where MedicId = ? and Data=? and Locatie=? ORDER BY OraInceput ASC";
@@ -524,11 +521,9 @@ public class ControllerOperations implements Initializable {
             e.printStackTrace();
         }
 
-
         for (timeIntervalBusy timeIsAtWork : timeIntervalAtWorks) {
             LocalTime largerStartTime = LocalTime.parse(timeIsAtWork.startTime, DateTimeFormatter.ofPattern("HH:mm:ss"));
             LocalTime largerEndTime = LocalTime.parse(timeIsAtWork.stopTime, DateTimeFormatter.ofPattern("HH:mm:ss"));
-
             LocalTime currrentEndTime = largerStartTime;
             for (timeIntervalBusy timeIsBusy : timeIntervalBusies) {
                 LocalTime smallerStartTime = LocalTime.parse(timeIsBusy.startTime, DateTimeFormatter.ofPattern("HH:mm:ss"));
@@ -544,7 +539,6 @@ public class ControllerOperations implements Initializable {
             if (currrentEndTime.plusMinutes(procedureDuration).isBefore(largerEndTime)) {
                 //found again
                 LocalTime suitableStartTime = currrentEndTime;
-
                 combobox_selecthour.getItems().add(String.valueOf(suitableStartTime));
             }
         }
@@ -565,6 +559,7 @@ public class ControllerOperations implements Initializable {
                 pacientExists = true;
                 pacientId = resultSet.getInt("Id");
             }
+            DBUtils.closeConnection(connection, preparedStatement, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -583,7 +578,6 @@ public class ControllerOperations implements Initializable {
                 preparedStatement.setString(6, "Pacient");
                 preparedStatement.executeUpdate();
                 DBUtils.closeConnection(connection, preparedStatement, null);
-
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -600,7 +594,6 @@ public class ControllerOperations implements Initializable {
                     pacientId = resultSet.getInt("Id");
                 }
                 DBUtils.closeConnection(connection, preparedStatement, resultSet);
-
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -628,7 +621,6 @@ public class ControllerOperations implements Initializable {
 
     private void showAllAppointments() {
         tableview_showallappointments.getItems().clear();
-
         col1.setCellValueFactory(cellData -> cellData.getValue().idProperty());
         col2.setCellValueFactory(cellData -> cellData.getValue().usernameProperty());
         col3.setCellValueFactory(cellData -> cellData.getValue().passwordProperty());
@@ -636,8 +628,6 @@ public class ControllerOperations implements Initializable {
         col5.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         col6.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
         col7.setCellValueFactory(cellData -> cellData.getValue().addressProperty());
-
-        //????????????????????????????????????????????????
 
         try {
             Connection connection = DBUtils.createConnection();
@@ -658,9 +648,7 @@ public class ControllerOperations implements Initializable {
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, String.valueOf(polyclinicId));
             }
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
             List<Columns> itemList = new ArrayList<>();
             while (resultSet.next()) {
                 itemList.add(new Columns(resultSet.getString("programari.id"), resultSet.getString("programari.PacientID"),
@@ -671,7 +659,6 @@ public class ControllerOperations implements Initializable {
             }
             tableview_showallappointments.getItems().addAll(itemList);
             DBUtils.closeConnection(connection, preparedStatement, resultSet);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -700,9 +687,7 @@ public class ControllerOperations implements Initializable {
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, String.valueOf(polyclinicId));
             }
-
             ResultSet resultSet = preparedStatement.executeQuery();
-
             List<Columns> itemList = new ArrayList<>();
             while (resultSet.next()) {
                 itemList.add(new Columns(resultSet.getString("consultatii.ID_Consultatie"),
@@ -713,7 +698,6 @@ public class ControllerOperations implements Initializable {
             }
             tableview_consultations.getItems().addAll(itemList);
             DBUtils.closeConnection(connection, preparedStatement, resultSet);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -724,7 +708,6 @@ public class ControllerOperations implements Initializable {
         col2reicepts.setCellValueFactory(cellData -> cellData.getValue().usernameProperty());
         col3reicepts.setCellValueFactory(cellData -> cellData.getValue().passwordProperty());
         col4reicepts.setCellValueFactory(cellData -> cellData.getValue().cnpProperty());
-
         try {
             Connection connection = DBUtils.createConnection();
             String query = " Select bonurifiscale.id,bonurifiscale.Consultatieid,bonurifiscale.dataemiterii," +
@@ -745,7 +728,6 @@ public class ControllerOperations implements Initializable {
             }
             tableview_reicepts.getItems().addAll(itemList);
             DBUtils.closeConnection(connection, preparedStatement, resultSet);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -761,7 +743,6 @@ public class ControllerOperations implements Initializable {
             preparedStatement.setString(3, String.valueOf(polyclinicId));
             preparedStatement.executeUpdate();
             DBUtils.closeConnection(connection, preparedStatement, null);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -808,7 +789,6 @@ public class ControllerOperations implements Initializable {
         col3medrap.setCellValueFactory(cellData -> cellData.getValue().passwordProperty());
         col4medrap.setCellValueFactory(cellData -> cellData.getValue().cnpProperty());
         col5medrap.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
-
         try {
             Connection connection = DBUtils.createConnection();
             String query = " Select * from rapoartemedicale where PacientID = ? ORDER BY DATA ASC";
@@ -821,7 +801,6 @@ public class ControllerOperations implements Initializable {
                         resultSet.getString("Diagnostic"), resultSet.getString("Recomandari"),
                         medicCODE(), null, null, null, null, null,
                         null, null, null, null, null));
-                System.out.println("yes");
             }
             tableview_usermedicalreport.getItems().addAll(itemList);
             DBUtils.closeConnection(connection, preparedStatement, resultSet);
@@ -843,7 +822,6 @@ public class ControllerOperations implements Initializable {
                 codParafa = resultSet.getString("CodParafa");
             }
             DBUtils.closeConnection(connection, preparedStatement, resultSet);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -854,7 +832,7 @@ public class ControllerOperations implements Initializable {
 
         try {
             Connection connection = DBUtils.createConnection();
-            String query = " Insert INTO rapoarteMedicale (PacientID,MedicID,AsistentID,Data,IstoricSimptome,Diagnostic,Recomandari,Parafat) values (?,?,0,?,?,?,?,?)";
+            String query = " Insert INTO rapoarteMedicale (PacientID,MedicID,AsistentID,Data,IstoricSimptome,Diagnostic,Recomandari,Parafat) values (?,?,1,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, tableview_showallappointments.getSelectionModel().getSelectedItem().usernameProperty().getValue().toString());
             preparedStatement.setString(2, String.valueOf(this.id));
@@ -865,6 +843,7 @@ public class ControllerOperations implements Initializable {
             preparedStatement.setString(7, medicCODE());
 
             preparedStatement.executeUpdate();
+            DBUtils.closeConnection(connection, preparedStatement, null);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -891,9 +870,9 @@ public class ControllerOperations implements Initializable {
                         resultSet.getString("Rezultat"), resultSet.getString("Validat"), null,
                         null, null, null, null, null, null,
                         null, null));
-                // add to table
-                tableview_showmedicalanalysis.getItems().addAll(itemList);
             }
+            tableview_showmedicalanalysis.getItems().addAll(itemList);
+            DBUtils.closeConnection(connection, preparedStatement, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -913,6 +892,7 @@ public class ControllerOperations implements Initializable {
             preparedStatement.setString(5, String.valueOf(0));
 
             preparedStatement.executeUpdate();
+            DBUtils.closeConnection(connection, preparedStatement, null);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -942,6 +922,7 @@ public class ControllerOperations implements Initializable {
                     return;
                 }
             }
+            DBUtils.closeConnection(connection, preparedStatement, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -954,6 +935,7 @@ public class ControllerOperations implements Initializable {
             preparedStatement.setString(2, AnalysisId);
 
             preparedStatement.executeUpdate();
+            DBUtils.closeConnection(connection, preparedStatement, null);
         } catch (SQLException e) {
             e.printStackTrace();
         }

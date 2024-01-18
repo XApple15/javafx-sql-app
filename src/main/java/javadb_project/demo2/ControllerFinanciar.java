@@ -145,7 +145,7 @@ public class ControllerFinanciar implements Initializable {
         this.position = position;
 
         LocalDate localDate = LocalDate.now();
-        this.currentYear = 2023;//localDate.getYear();
+        this.currentYear = localDate.getYear();
 
         if (!position.equals("Financial Analyst")) {
             tableview_showfinancialdetailsforallmedics.setVisible(false);

@@ -316,7 +316,7 @@ public class DBUtils {
             connection = DBUtils.createConnection();
 
             String query = "UPDATE utilizatori SET username=?, parola=?, CNP=?, Nume=?, Prenume=?, Adresa=?, " +
-                    "Telefon=?, Email=?, ContIBAN=?, NrContract=?, DataAngajarii=?, Functie=?, TipUtilizator=? WHERE id=?";
+                    "Telefon=?, Email=?, ContIBAN=?, NrContract=?, DataAngajarii=?, Functie=?, TipUtilizator=?, policlinicaId=? WHERE id=?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, username);
                 preparedStatement.setString(2, password);
@@ -332,6 +332,8 @@ public class DBUtils {
                 preparedStatement.setString(12, position);
                 preparedStatement.setString(13, userType);
                 preparedStatement.setString(14, id);
+                preparedStatement.setString(15, polyclinicId);
+
 
                 preparedStatement.executeUpdate();
                 DBUtils.closeConnection(connection, preparedStatement, null);
